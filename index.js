@@ -23,9 +23,9 @@ function createTabBody(block, i, isActive, book) {
     console.log(block);
     
     if(block.kwargs.type == "text" || block.kwargs.type == "asciidoc"){
-        return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + book.renderBlock( 'asciidoc' , block.body ) + '</div>';
+        return book.renderBlock( 'asciidoc' , block.body ).then(function(rendered){ return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>'; });
     }else if(block.kwargs.type == "markdown"){
-        return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + book.renderBlock( 'markdown' , block.body ) + '</div>';
+        return book.renderBlock( 'markdown' , block.body ).then(function(rendered){ return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>'; });
     }else{
         return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
             + escape(block.body) +
