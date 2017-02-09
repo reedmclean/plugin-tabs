@@ -18,9 +18,12 @@ function createTab(block, i, isActive) {
     @param {Boolean}
     @return {String}
 */
-function createTabBody(block, i, isActive) {
+function createTabBody(block, i, isActive, book) {
+    console.log("Block");
+    console.log(block);
+    
     if(block.kwargs.type == "text"){
-        return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + block.body + '</div>';
+        return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + book.renderBlock( block.body ) + '</div>';
     }else{
         return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
             + escape(block.body) +
@@ -46,6 +49,7 @@ module.exports = {
                 var blocks = [parentBlock].concat(parentBlock.blocks);
                 var tabsContent = '';
                 var tabsHeader = '';
+                var book = this;
 
                 blocks.forEach(function(block, i) {
                     var isActive = (i == 0);
@@ -59,7 +63,7 @@ module.exports = {
                     }
 
                     tabsHeader += createTab(block, i, isActive);
-                    tabsContent += createTabBody(block, i, isActive);
+                    tabsContent += createTabBody(block, i, isActive, book);
                 });
 
 
