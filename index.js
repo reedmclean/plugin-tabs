@@ -8,7 +8,7 @@ var escape = require('escape-html');
     @return {String}
 */
 function createTab(block, i, isActive) {
-    return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + i + '">' + block.kwargs.name + '</div>';
+    return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + block.kwargs.name + '</div>';
 }
 
 /*
@@ -20,9 +20,9 @@ function createTab(block, i, isActive) {
 */
 function createTabBody(block, i, isActive) {
     if(block.kwargs.type == "text"){
-        return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + i + '">' + block.body + '</div>';
+        return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + block.body + '</div>';
     }else{
-        return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+        return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
             + escape(block.body) +
         '</code></pre></div>';
     }
@@ -32,16 +32,16 @@ module.exports = {
     book: {
         assets: './assets',
         css: [
-            'codetabs.css'
+            'tabs.css'
         ],
         js: [
-            'codetabs.js'
+            'tabs.js'
         ]
     },
 
     blocks: {
-        codetabs: {
-            blocks: ['language'],
+        tabs: {
+            blocks: ['tab'],
             process: function(parentBlock) {
                 var blocks = [parentBlock].concat(parentBlock.blocks);
                 var tabsContent = '';
@@ -51,7 +51,11 @@ module.exports = {
                     var isActive = (i == 0);
 
                     if (!block.kwargs.name) {
-                        throw new Error('Code tab requires a "name" property');
+                        throw new Error('Tab requires a "name" property');
+                    }
+                    
+                    if (!block.kwargs.type) {
+                        block.kwargs.type=block.kwargs.name;
                     }
 
                     tabsHeader += createTab(block, i, isActive);
@@ -59,9 +63,9 @@ module.exports = {
                 });
 
 
-                return '<div class="codetabs">' +
-                    '<div class="codetabs-header">' + tabsHeader + '</div>' +
-                    '<div class="codetabs-body">' + tabsContent + '</div>' +
+                return '<div class="tabs">' +
+                    '<div class="tabs-header">' + tabsHeader + '</div>' +
+                    '<div class="tabs-body">' + tabsContent + '</div>' +
                 '</div>';
             }
         }
