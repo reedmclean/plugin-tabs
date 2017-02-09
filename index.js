@@ -19,9 +19,13 @@ function createTab(block, i, isActive) {
     @return {String}
 */
 function createTabBody(block, i, isActive) {
-    return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
-        + escape(block.body) +
-    '</code></pre></div>';
+    if(block.kwargs.type == "text"){
+        return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + i + '">' + block.body + '</div>';
+    }else{
+        return '<div class="tab' + (isActive? ' active' : '') + '" data-codetab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+            + escape(block.body) +
+        '</code></pre></div>';
+    }
 }
 
 module.exports = {
