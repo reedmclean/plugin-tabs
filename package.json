@@ -1,28 +1,28 @@
 {
-  "name": "gitbook-plugin-codetabs",
-  "version": "1.0.0",
-  "description": "Multiple languages code blocks for GitBook",
+  "name": "gitbook-plugin-tabs",
+  "version": "1.0.2",
+  "description": "Multiple tabbed blocks for GitBook",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GitbookIO/plugin-codetabs.git"
+    "url": "git+https://github.com/gameontext/plugin-tabs.git"
   },
   "keywords": [
     "gitbook",
-    "code"
+    "tabs"
   ],
   "engines": {
     "gitbook": ">=3.0.0-pre.8"
   },
-  "author": "Samy Pesse <samy@gitbook.com>",
+  "author": "Samy Pesse <samy@gitbook.com>, Ozzy <ozzy@ca.ibm.com>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/GitbookIO/plugin-codetabs/issues"
+    "url": "https://github.com/gameontext/plugin-tabs/issues"
   },
-  "homepage": "https://github.com/GitbookIO/plugin-codetabs#readme",
+  "homepage": "https://github.com/gameontext/plugin-tabs#readme",
   "dependencies": {
     "escape-html": "^1.0.3"
   }
