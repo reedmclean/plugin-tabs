@@ -46,8 +46,8 @@ function createTabBody(block, i, isActive, book) {
                 
                 var bodyText = escape(block.body);
                 var lines = bodyText.split('\n');       
-                               
-                for(var line = 0; i < lines.length; line++){                  
+                
+                for(var line = 0; line < lines.length; line++){          
                       resultText += '<tr><td><pre>'
                                   + (line+start)
                                   +'</pre></td><td><pre><code class="lang-' 
