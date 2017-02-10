@@ -56,7 +56,7 @@ function createTabBody(block, i, isActive, book) {
                     
                 }
                 resultText+='</table>';
-                resultText = '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>');                
+                resultText = '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>';                
                 resolve(resultText);
                 
             });
