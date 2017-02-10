@@ -19,17 +19,27 @@ function createTab(block, i, isActive) {
     @return {String}
 */
 function createTabBody(block, i, isActive, book) {
-    console.log("Block");
-    console.log(block);
-    
+ 
     if(block.kwargs.type == "text" || block.kwargs.type == "asciidoc"){
-        return book.renderBlock( 'asciidoc' , block.body ).then(function(rendered){ return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>'; });
+        return new Promise((resolve,reject) => {
+                book.renderBlock( 'asciidoc' , block.body )
+                    .then(function(rendered){ 
+                         resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' , i);
+                });
+        });
     }else if(block.kwargs.type == "markdown"){
-        return book.renderBlock( 'markdown' , block.body ).then(function(rendered){ return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>'; });
+        return new Promise((resolve,reject) => {
+                book.renderBlock( 'markdown' , block.body )
+                    .then(function(rendered){ 
+                         resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' , i);
+                });
+        });        
     }else{
-        return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
-            + escape(block.body) +
-        '</code></pre></div>';
+        return new Promise((resolve,reject) => {
+            resolve( 
+               '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+                  + escape(block.body) + '</code></pre></div>', i );
+        });
     }
 }
 
@@ -47,11 +57,12 @@ module.exports = {
     blocks: {
         tabs: {
             blocks: ['tab'],
-            process: function(parentBlock) {
+            process: new Promise((resolve,reject) => {
                 var blocks = [parentBlock].concat(parentBlock.blocks);
-                var tabsContent = '';
-                var tabsHeader = '';
+                var tabsContent = [];
+                var tabsHeader = [];
                 var book = this;
+                var counter = blocks.length;
 
                 blocks.forEach(function(block, i) {
                     var isActive = (i == 0);
@@ -64,15 +75,27 @@ module.exports = {
                         block.kwargs.type=block.kwargs.name;
                     }
 
-                    tabsHeader += createTab(block, i, isActive);
-                    tabsContent += createTabBody(block, i, isActive, book);
+                    tabsHeader[i] = createTab(block, i, isActive);
+                    createTabBody(block, i, isActive, book).then(function(tabBody, x){
+                        tabsContent[x] = tabBody;
+                        if( --counter == 0) {                            
+                            var tabContentText = '';
+                            tabsContent.forEach(function(tab) {
+                                tabContentText += tab;
+                            });
+                            var tabHeaderText = '';
+                            tabsHeader.forEach(function(header) {
+                                tabHeaderText += header;
+                            });
+
+                            resolve('<div class="tabs">' +
+                                    '<div class="tabs-header">' + tabsHeaderText + '</div>' +
+                                    '<div class="tabs-body">' + tabContentText+ '</div>' +
+                                     '</div>');
+                        }
+                    });
                 });
 
-
-                return '<div class="tabs">' +
-                    '<div class="tabs-header">' + tabsHeader + '</div>' +
-                    '<div class="tabs-body">' + tabsContent + '</div>' +
-                '</div>';
             }
         }
     }
