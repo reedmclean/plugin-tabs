@@ -41,7 +41,7 @@ function createTabBody(block, i, isActive, book) {
                 var start = 0;
                 
                 if(block.kwargs.startnumber){
-                    start = block.kwargs.startnumber;
+                    start = parseInt(block.kwargs.startnumber,10);
                 }
                 
                 var bodyText = escape(block.body);
