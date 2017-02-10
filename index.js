@@ -19,13 +19,13 @@ function createTab(block, i, isActive) {
     @return {String}
 */
 function createTabBody(block, i, isActive, book) {
-    console.log("Building promise for tab "+i);
+    console.log("Building promise for tab "+i+" with body "+block.body);
     if(block.kwargs.type == "text" || block.kwargs.type == "asciidoc"){        
         return new Promise((resolve,reject) => {
                 console.log("Processing text/asciidoc promise for tab "+i);
                 book.renderBlock( 'asciidoc' , block.body )
                     .then(function(rendered){ 
-                         console.log("Resolving text/asciidoc promise for tab "+i);
+                         console.log("Resolving text/asciidoc promise for tab "+i+" with rendered body "+rendered);
                          resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' , i);
                 });
         });
@@ -91,6 +91,7 @@ module.exports = {
                             
                             var tabContentText = '';
                             tabsContent.forEach(function(tab) {
+                                console.log("Appending tab content "+tab);
                                 tabContentText += tab;                                
                             });
                             
@@ -99,7 +100,7 @@ module.exports = {
                                 tabHeaderText += header;
                             });
 
-                            console.log("Resolving final promise");
+                            console.log("Resolving final promise: tabContentText : "+tabContentText);
                             resolve('<div class="tabs">' +
                                     '<div class="tabs-header">' + tabHeaderText + '</div>' +
                                     '<div class="tabs-body">' + tabContentText+ '</div>' +
