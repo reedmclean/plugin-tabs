@@ -37,7 +37,7 @@ function createTabBody(block, i, isActive, book) {
         if(block.kwargs.linenumbers == 'yes'){
             
             return new Promise((resolve,reject) => {          
-                var resultText = '<table><tr><th style="text-align:right"><th style="text-align:left"></tr>';
+                var resultText = '<pre><table><tbody>';
                 var start = 0;
                 
                 if(block.kwargs.startnumber){
@@ -48,14 +48,15 @@ function createTabBody(block, i, isActive, book) {
                 var lines = bodyText.split('\n');       
                 
                 for(var line = 0; line < lines.length; line++){          
-                      resultText += '<tr><td><pre>'
+                      resultText += '<tr><td style="text-align:right">'
                                   + (line+start)
-                                  +'</pre></td><td><pre><code class="lang-' 
-                                  + (block.kwargs.type || block.kwargs.name) + '">'
-                                  + (lines[line]) + '</code></pre></td></tr>';
+                                  + '</td><td style="text-align:left">'
+                                  + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+                                  + (lines[line]) 
+                                  + '</code></td></tr>';
                     
                 }
-                resultText+='</table>';
+                resultText+='</tbody></table></pre>';
                 resultText = '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>';                
                 resolve(resultText);
                 
