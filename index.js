@@ -35,21 +35,27 @@ function createTabBody(block, i, isActive, book) {
         });        
     }else{
         if(block.kwargs.linenumbers == 'yes'){
-            var resultText = '<table><tr><th style="text-align:right"><th style="text-align:left"></tr>';
-            var start = 0;
-            if(block.kwargs.startnumber){
-                start = block.kwargs.startnumber;
-            }
-            var bodyText = escape(block.body);
-            var lines = bodyText.split('\n');            
-            for(var l = 0; i < lines.length; l++){
-                resultText += '<tr><td><pre>'+(l+start)+'</pre></td><td><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
-                      + lines[l] + '</code></pre></td></tr>';
-            }
-            resultText+='</table>';
-            return new Promise((resolve,reject) => {
-                resolve(  '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>');
+            return new Promise((resolve,reject) => {          
+                var resultText = '<table><tr><th style="text-align:right"><th style="text-align:left"></tr>';
+                var start = 0;
+                if(block.kwargs.startnumber){
+                    start = block.kwargs.startnumber;
+                }
+                var bodyText = escape(block.body);
+                var lines = bodyText.split('\n');           
+                console.log("Split body into "+lines.length);
+                for(var line = 0; i < lines.length; line++){
+                    console.log("processing line "+line);
+                    resultText += '<tr><td><pre>'+(line+start)+'</pre></td><td><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+                          + (lines[line]) + '</code></pre></td></tr>';
+                    console.log("result now resultText.length);
+                }
+                resultText+='</table>';
+     '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>');
+                
+                resolve(resultText);
             });
+               
         }else{
             return new Promise((resolve,reject) => {
                 resolve(             
