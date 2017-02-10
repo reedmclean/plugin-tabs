@@ -48,8 +48,8 @@ function createTabBody(block, i, isActive, book) {
                 var lines = bodyText.split('\n');       
                 
                 for(var line = 0; line < lines.length; line++){          
-                      resultText += '<tr class="codeline">'
-                                  + '<td class="codecell" data-line-number="'+(line+start)+'">'
+                      resultText += '<tr class="codeline"  style="background-color:rgb(248,248,248);">'
+                                  + '<td class="codecell" style="text-align:right; padding-top:2px; padding-bottom:2px;" data-line-number="'+(line+start)+'">'
                                   + '</td><td style="text-align:left; padding-top:2px; padding-bottom:2px;">'
                                   + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
                                   + (lines[line]) 
