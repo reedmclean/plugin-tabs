@@ -19,7 +19,7 @@ function createTab(block, i, isActive) {
     @return {String}
 */
 function createTabBody(block, i, isActive, book) {
-    if(block.kwargs.type == "text" || block.kwargs.type == "asciidoc"){        
+    if(block.kwargs.type == "asciidoc"){        
         return new Promise((resolve,reject) => {
                 book.renderBlock( 'asciidoc' , block.body )
                     .then(function(rendered){ 
