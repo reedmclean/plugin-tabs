@@ -57,7 +57,9 @@ module.exports = {
     blocks: {
         tabs: {
             blocks: ['tab'],
-            process: new Promise((resolve,reject) => {
+            process: function(parentBlock) {
+                
+                var promise = new Promise((resolve,reject) => {
                 var blocks = [parentBlock].concat(parentBlock.blocks);
                 var tabsContent = [];
                 var tabsHeader = [];
@@ -96,7 +98,9 @@ module.exports = {
                     });
                 });
 
-            })
+            });
+                return promise;
+            }
         }
     }
 };
