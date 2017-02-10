@@ -48,7 +48,7 @@ function createTabBody(block, i, isActive, book) {
                     console.log("processing line "+line);
                     resultText += '<tr><td><pre>'+(line+start)+'</pre></td><td><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
                           + (lines[line]) + '</code></pre></td></tr>';
-                    console.log("result now resultText.length);
+                    console.log("result now"+ resultText.length);
                 }
                 resultText+='</table>';
      '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>');
