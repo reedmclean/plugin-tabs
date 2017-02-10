@@ -34,11 +34,30 @@ function createTabBody(block, i, isActive, book) {
                 });
         });        
     }else{
-        return new Promise((resolve,reject) => {
-            resolve( 
-               '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
-                  + escape(block.body) + '</code></pre></div>' );
-        });
+        if(block.kwargs.linenumbers == 'yes'){
+            var resultText = '<table><tr><th style="text-align:right"><th style="text-align:left"></tr>';
+            var start = 0;
+            if(block.kwargs.startnumber){
+                start = block.kwargs.startnumber;
+            }
+            var bodyText = escape(block.body);
+            var lines = bodyText.split('\n');            
+            lines.forEach( 
+            for(var i = 0; i < lines.length; i ++){
+                resultText += '<tr><td><pre>'+(i+start)+'</pre></td><td><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+                      + lines[i] + '</code></pre></td></tr>';
+            }
+            resultText+='</table>';
+            return new Promise((resolve,reject) => {
+                resolve(  '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>');
+            });
+        }else{
+            return new Promise((resolve,reject) => {
+                resolve(             
+                   '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+                      + escape(block.body) + '</code></pre></div>' );
+            });
+        }
     }
 }
 
@@ -74,6 +93,10 @@ module.exports = {
 
                         if (!block.kwargs.type) {
                             block.kwargs.type=block.kwargs.name;
+                        }
+                        
+                        if (!block.kwargs.linenumbers) {
+                            block.kwargs.linenumbers = 'no';
                         }
 
                         console.log("Processing "+i+" -> "+block.kwargs.name+" :: "+block.kwargs.type);
