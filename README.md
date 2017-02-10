@@ -53,5 +53,8 @@ var React = require('react')
 {%- endtabs %}
 ```
 
+### Credit
+
+Based on the [codetabs](https://github.com/GitbookIO/plugin-codetabs) plugin, and extended to support asciidoc/markdown parsed tab content.
 
 
