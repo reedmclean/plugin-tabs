@@ -10,7 +10,7 @@ Adds the plugin to your `book.json`, then run `gitbook install` if you are build
 
 ```js
 {
-    "plugins": ["codetabs@git+https://github.com/gameontext/plugin-codetabs.git#1.0.1"]
+    "plugins": ["codetabs@git+https://github.com/gameontext/plugin-codetabs.git#1.0.17"]
 }
 ```
 
@@ -23,6 +23,11 @@ This is a code block with tabs for each languages:
 {% tabs name="Fish", type="text" -%}
 msg = "Hello World"
 print msg
+{%- tab name="Readme", type="asciidoc" -%}
+## This is an asciidoc content tab.
+
+You can *use* _asciidoc_ syntax here.
+
 {%- tab name="JavaScript", type="js" -%}
 var msg = "Hello World";
 console.log(msg);
