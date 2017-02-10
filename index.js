@@ -46,19 +46,14 @@ function createTabBody(block, i, isActive, book) {
                 
                 var bodyText = escape(block.body);
                 var lines = bodyText.split('\n');       
-                
-                console.log("Split body into "+lines.length);
-                
-                for(var line = 0; i < lines.length; line++){
+                               
+                for(var line = 0; i < lines.length; line++){                  
+                      resultText += '<tr><td><pre>'
+                                  + (line+start)
+                                  +'</pre></td><td><pre><code class="lang-' 
+                                  + (block.kwargs.type || block.kwargs.name) + '">'
+                                  + (lines[line]) + '</code></pre></td></tr>';
                     
-                    console.log("processing line "+line);
-                    
-                    resultText += '<tr><td><pre>'
-                          +(line+start)+'</pre></td><td><pre><code class="lang-' 
-                          + (block.kwargs.type || block.kwargs.name) + '">'
-                          + (lines[line]) + '</code></pre></td></tr>';
-                    
-                    console.log("result now"+ resultText.length);
                 }
                 resultText+='</table>';
                 resultText = '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>');                
