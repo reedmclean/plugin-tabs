@@ -91,7 +91,7 @@ module.exports = {
                             });
 
                             resolve('<div class="tabs">' +
-                                    '<div class="tabs-header">' + tabsHeaderText + '</div>' +
+                                    '<div class="tabs-header">' + tabHeaderText + '</div>' +
                                     '<div class="tabs-body">' + tabContentText+ '</div>' +
                                      '</div>');
                         }
