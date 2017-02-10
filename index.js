@@ -48,9 +48,9 @@ function createTabBody(block, i, isActive, book) {
                 var lines = bodyText.split('\n');       
                 
                 for(var line = 0; line < lines.length; line++){          
-                      resultText += '<tr><td style="text-align:right">'
+                      resultText += '<tr style="background-color:rgb(248,248,248);"><td style="text-align:right; padding-top:2px; padding-bottom:2px;">'
                                   + (line+start)
-                                  + '</td><td style="text-align:left">'
+                                  + '</td><td style="text-align:left; padding-top:2px; padding-bottom:2px;">'
                                   + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
                                   + (lines[line]) 
                                   + '</code></td></tr>';
