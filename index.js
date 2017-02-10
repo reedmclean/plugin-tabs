@@ -23,30 +23,12 @@ function createTabBody(block, i, isActive, book) {
         return new Promise((resolve,reject) => {
                 book.renderBlock( 'asciidoc' , block.body )
                     .then(function(rendered){ 
-                         console.log("Tab "+i+" "+block.kwargs.name+" raw:"+block.body+" rendered:"+rendered);
                          resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' );
                 });
         });
     }else if(block.kwargs.type == "markdown"){
         return new Promise((resolve,reject) => {
                 book.renderBlock( 'markdown' , block.body )
-                    .then(function(rendered){ 
-                         console.log("Tab "+i+" "+block.kwargs.name+" raw:"+block.body+" rendered:"+rendered);
-                         resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' );
-                });
-        });        
-    }else if(block.kwargs.type == "i-text" || block.kwargs.type == "i-asciidoc"){        
-        return new Promise((resolve,reject) => {
-                book.renderInline( 'asciidoc' , block.body )
-                    .then(function(rendered){ 
-                         console.log("Tab "+i+" "+block.kwargs.name+" raw:"+block.body+" rendered:"+rendered);
-                         var wrapped =  '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>';
-                         resolve( wrapped );
-                });
-        });
-    }else if(block.kwargs.type == "i-markdown"){
-        return new Promise((resolve,reject) => {
-                book.renderInline( 'markdown' , block.body )
                     .then(function(rendered){ 
                          resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' );
                 });
