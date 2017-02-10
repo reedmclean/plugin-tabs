@@ -23,6 +23,7 @@ function createTabBody(block, i, isActive, book) {
         return new Promise((resolve,reject) => {
                 book.renderBlock( 'asciidoc' , block.body )
                     .then(function(rendered){ 
+                         console.log("Tab "+i+" "+block.kwargs.name+" raw:"+block.body+" rendered:"+rendered);
                          var wrapped =  '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>';
                          resolve( wrapped );
                 });
