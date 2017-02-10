@@ -19,11 +19,13 @@ function createTab(block, i, isActive) {
     @return {String}
 */
 function createTabBody(block, i, isActive, book) {
- 
-    if(block.kwargs.type == "text" || block.kwargs.type == "asciidoc"){
+    console.log("Building promise for tab "+i);
+    if(block.kwargs.type == "text" || block.kwargs.type == "asciidoc"){        
         return new Promise((resolve,reject) => {
+                console.log("Processing text/asciidoc promise for tab "+i);
                 book.renderBlock( 'asciidoc' , block.body )
                     .then(function(rendered){ 
+                         console.log("Resolving text/asciidoc promise for tab "+i);
                          resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' , i);
                 });
         });
@@ -67,8 +69,8 @@ module.exports = {
                 var counter = blocks.length;
 
                 blocks.forEach(function(block, i) {
-                    var isActive = (i == 0);
-
+                    var isActive = (i == 0);                    
+                    
                     if (!block.kwargs.name) {
                         throw new Error('Tab requires a "name" property');
                     }
@@ -76,20 +78,28 @@ module.exports = {
                     if (!block.kwargs.type) {
                         block.kwargs.type=block.kwargs.name;
                     }
+                    
+                    console.log("Processing "+i+" -> "+block.kwargs.name+" :: "+block.kwargs.type);
 
                     tabsHeader[i] = createTab(block, i, isActive);
                     createTabBody(block, i, isActive, book).then(function(tabBody, x){
                         tabsContent[x] = tabBody;
-                        if( --counter == 0) {                            
+                        console.log("Tab "+i+" has completed.. counter is now "+counter);
+                        if( --counter == 0) {    
+                            
+                            console.log("Building tab response");
+                            
                             var tabContentText = '';
                             tabsContent.forEach(function(tab) {
-                                tabContentText += tab;
+                                tabContentText += tab;                                
                             });
+                            
                             var tabHeaderText = '';
                             tabsHeader.forEach(function(header) {
                                 tabHeaderText += header;
                             });
 
+                            console.log("Resolving final promise");
                             resolve('<div class="tabs">' +
                                     '<div class="tabs-header">' + tabHeaderText + '</div>' +
                                     '<div class="tabs-body">' + tabContentText+ '</div>' +
