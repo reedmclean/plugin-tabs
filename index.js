@@ -65,6 +65,7 @@ module.exports = {
                 var promise = new Promise((resolve,reject) => {
                 var blocks = [parentBlock].concat(parentBlock.blocks);
                 var tabsContent = [];
+                var tabsFish = '';
                 var tabsHeader = [];
                 var book = this;
                 var counter = blocks.length;
@@ -85,9 +86,11 @@ module.exports = {
                     tabsHeader[i] = createTab(block, i, isActive);
                     createTabBody(block, i, isActive, book).then(function(tabBody, x){
                         tabsContent[x] = tabBody;
+                        tabsFish += tabBody;
                         console.log("Tab "+i+" ("+x+") has completed.. counter is now "+counter+" tabBody was "+tabBody);
                         console.log("tabsContent:"+tabsContent);
                         console.log("tabsContent.length: "+tabsContent.length);
+                        console.log("tabsFish: "+tabsFish);
                         if( --counter == 0) {    
                             
                             console.log("Building tab response");
