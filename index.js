@@ -42,9 +42,9 @@ function createTabBody(block, i, isActive, book) {
             }
             var bodyText = escape(block.body);
             var lines = bodyText.split('\n');            
-            for(var i = 0; i < lines.length; i ++){
-                resultText += '<tr><td><pre>'+(i+start)+'</pre></td><td><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
-                      + lines[i] + '</code></pre></td></tr>';
+            for(var l = 0; i < lines.length; l++){
+                resultText += '<tr><td><pre>'+(l+start)+'</pre></td><td><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+                      + lines[l] + '</code></pre></td></tr>';
             }
             resultText+='</table>';
             return new Promise((resolve,reject) => {
