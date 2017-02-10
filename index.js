@@ -25,8 +25,9 @@ function createTabBody(block, i, isActive, book) {
                 console.log("Processing text/asciidoc promise for tab "+i);
                 book.renderBlock( 'asciidoc' , block.body )
                     .then(function(rendered){ 
-                         console.log("Resolving text/asciidoc promise for tab "+i+" with rendered body "+rendered);
-                         resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' , i);
+                         var wrapped =  '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>';
+                         console.log("Resolving text/asciidoc promise for tab "+i+" with rendered body "+wrapped);
+                         resolve( wrapped , i);
                 });
         });
     }else if(block.kwargs.type == "markdown"){
@@ -84,7 +85,9 @@ module.exports = {
                     tabsHeader[i] = createTab(block, i, isActive);
                     createTabBody(block, i, isActive, book).then(function(tabBody, x){
                         tabsContent[x] = tabBody;
-                        console.log("Tab "+i+" has completed.. counter is now "+counter);
+                        console.log("Tab "+i+" ("+x+") has completed.. counter is now "+counter+" tabBody was "+tabBody);
+                        console.log("tabsContent:"+tabsContent);
+                        console.log("tabsContent.length: "+tabsContent.length);
                         if( --counter == 0) {    
                             
                             console.log("Building tab response");
