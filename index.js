@@ -50,7 +50,7 @@ function createTabBody(block, i, isActive, book) {
 // using tables..          
                var resultText = '<pre><table style="border:0px;margin:0px;padding:0px;width:0%;"><tbody>';                
                 for(var line = 0; line < lines.length; line++){          
-                      resultText += '<tr class="codeline"  style="background-color:rgb(248,248,248);border:0px;">'
+                      resultText += '<tr class="codeline"  style="background-color:rgb(248,248,248);border:initial;">'
                                   + '<td class="codecell" style="text-align:right; padding-top:20px; padding-bottom:0px;border:0px;padding: 0 .5em;border-right: 1px solid #ddd;" data-line-number="'+(line+start)+'">'
                                   + '</td><td style="text-align:left; padding-top:0px; padding-bottom:0px; border:0px; ">'
                                   + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
