@@ -26,6 +26,7 @@
 
 .tabs .tabs-body .tab.active {
     display: block;
+    margin: 10px;
 }
 
 .codetabblock {
@@ -33,7 +34,6 @@
   background-color: #fff;
   width: em(440);
   border-radius: .25em;
-  box-shadow: .1em .1em .5em rgba(0,0,0,.45);
   line-height: 0;    
   counter-reset: lineno attr(startnumber);
 }
