@@ -48,7 +48,7 @@ function createTabBody(block, i, isActive, book) {
                 var lines = bodyText.split('\n');       
                 
 // using tables..          
-               var resultText = '<pre><table><tbody>';                
+               var resultText = '<pre><table style="border:0px;margin:0px;padding:0px;"><tbody>';                
                 for(var line = 0; line < lines.length; line++){          
                       resultText += '<tr class="codeline"  style="background-color:rgb(248,248,248);border:0px;">'
                                   + '<td class="codecell" style="text-align:right; padding-top:20px; padding-bottom:0px;border:0px;padding: 0 .5em;border-right: 1px solid #ddd;" data-line-number="'+(line+start)+'">'
