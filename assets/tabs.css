@@ -66,12 +66,10 @@
 
 .codecell::before {
     content: attr(data-line-number);
-      content: counter(lineno);
-      display: inline-block;
-      border-right: 1px solid #ddd;
-      padding: 0 .5em;
-      margin-right: .5em;
-      color: #AAA    
+    border-right: 1px solid #ddd;
+    padding: 0 .5em;
+    margin-right: .5em;
+    color: #AAA    
 }
 
 
