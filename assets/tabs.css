@@ -66,9 +66,7 @@
 
 .codecell::before {
     content: attr(data-line-number);
-    border-right: 1px solid #ddd;
-    padding: 0 .5em;
-    margin-right: .5em;
+    padding: 0px;
     color: #AAA    
 }
 
