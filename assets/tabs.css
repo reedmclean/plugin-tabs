@@ -54,17 +54,24 @@
 }   
 
 .codeline {
-    background-color:rgb(248,248,248);
+  font-family: monospace;
+  background-color: #fff;
+  width: em(440);
+  border-radius: .25em;
+  line-height: 0;    
 }
 
 .codecell {
-    text-align:right; 
-    padding-top:2px; 
-    padding-bottom:2px;
 }
 
 .codecell::before {
     content: attr(data-line-number);
+      content: counter(lineno);
+      display: inline-block;
+      border-right: 1px solid #ddd;
+      padding: 0 .5em;
+      margin-right: .5em;
+      color: #AAA    
 }
 
 
