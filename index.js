@@ -37,7 +37,7 @@ function createTabBody(block, i, isActive, book) {
         if(block.kwargs.linenumbers == 'yes'){
             
             return new Promise((resolve,reject) => {          
-                var resultText = '<pre><table><tbody>';
+
                 var start = 0;
                 
                 if(block.kwargs.startnumber){
@@ -47,16 +47,29 @@ function createTabBody(block, i, isActive, book) {
                 var bodyText = escape(block.body);
                 var lines = bodyText.split('\n');       
                 
-                for(var line = 0; line < lines.length; line++){          
-                      resultText += '<tr class="codeline"  style="background-color:rgb(248,248,248);">'
-                                  + '<td class="codecell" style="text-align:right; padding-top:2px; padding-bottom:2px;" data-line-number="'+(line+start)+'">'
-                                  + '</td><td style="text-align:left; padding-top:2px; padding-bottom:2px;">'
-                                  + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
-                                  + (lines[line]) 
-                                  + '</code></td></tr>';
-                    
+// using tables..          
+//                var resultText = '<pre><table><tbody>';                
+//                 for(var line = 0; line < lines.length; line++){          
+//                       resultText += '<tr class="codeline"  style="background-color:rgb(248,248,248);">'
+//                                   + '<td class="codecell" style="text-align:right; padding-top:2px; padding-bottom:2px;" data-line-number="'+(line+start)+'">'
+//                                   + '</td><td style="text-align:left; padding-top:2px; padding-bottom:2px;">'
+//                                   + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+//                                   + (lines[line]) 
+//                                   + '</code></td></tr>';                    
+//                 }
+//                resultText+='</tbody></table></pre>';           
+                
+                
+// using spans..                 
+                var resultText = '<div class="codetabblock" startnumber="'+start+'"><pre>';                                
+                for(var line = 0; line < lines.length; line++){
+                    resultText += '<span class="codetabline">'
+                                + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'    
+                                + '</span>';
                 }
-                resultText+='</tbody></table></pre>';
+                resultText += '</pre></div>';
+                
+
                 resultText = '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">'+resultText+'</div>';                
                 resolve(resultText);
                 
