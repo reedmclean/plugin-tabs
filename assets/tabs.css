@@ -4,7 +4,7 @@
 
 .tabs .tabs-header .tab {
     display: inline-block;
-    background-color: #AAA;
+    background-color: rgb(247,247,247);
     padding: 3px 6px;
     border: 1px solid #ddd;
     border-bottom: 2px solid transparent;
@@ -15,6 +15,7 @@
 .tabs .tabs-header .tab.active {
     border: 1px solid #ddd;
     border-bottom-color: #428bca;
+    background-color: #FFF;
     cursor: default;
     opacity: 1;
 }
@@ -36,7 +37,7 @@
   border-radius: .25em;
   box-shadow: .1em .1em .5em rgba(0,0,0,.45);
   line-height: 0;    
-    counter-reset: lineno attr(startnumber);
+  counter-reset: lineno attr(startnumber);
 }
 
 .codetabline {
