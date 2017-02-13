@@ -1,16 +1,19 @@
 .tabs {
-
+    border: 1px solid #ddd;
 }
 
 .tabs .tabs-header .tab {
     display: inline-block;
+    background-color: #AAA;
     padding: 3px 6px;
+    border: 1px solid #ddd;
     border-bottom: 2px solid transparent;
     cursor: pointer;
     opacity: 0.7;
 }
 
 .tabs .tabs-header .tab.active {
+    border: 1px solid #ddd;
     border-bottom-color: #428bca;
     cursor: default;
     opacity: 1;
