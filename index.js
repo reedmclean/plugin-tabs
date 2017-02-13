@@ -64,7 +64,9 @@ function createTabBody(block, i, isActive, book) {
                 var resultText = '<div class="codetabblock" startnumber="'+start+'"><pre>';                                
                 for(var line = 0; line < lines.length; line++){
                     resultText += '<span class="codetabline">'
-                                + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'    
+                                + '<code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
+                                + (lines[line]) 
+                                + '</code>                    
                                 + '</span>';
                 }
                 resultText += '</pre></div>';
