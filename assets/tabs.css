@@ -1,5 +1,12 @@
 .tabs {
+    border-width: 1px 0px 1px 0px;
+    border-style: solid;
+    border-color: #ccc;
+    margin: 1.25em 0em 1.25em 0em;
+}
 
+.tabs .tabs-header {
+    padding: .3em 0em .3em 0em;
 }
 
 .tabs .tabs-header .tab {

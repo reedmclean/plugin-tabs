@@ -1,45 +1,50 @@
 var escape = require('escape-html');
 
-/*
-    Generate HTML for the tab in the header
 
-    @param {Block}
-    @param {Boolean}
-    @return {String}
-*/
-function createTab(block, i, isActive) {
-    return '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + block.kwargs.name + '</div>';
+function alphanumeric(input) {
+    return input.replace(/[^a-zA-Z0-9\-@]/g, '');
 }
 
-/*
-    Generate HTML for the tab's content
+function wrapInTab(isActive, block, contents) {
+    const safeName = alphanumeric(block.kwargs.name),
+        safeOptionSet = alphanumeric(block.kwargs.optionSet);
 
-    @param {Block}
-    @param {Boolean}
-    @return {String}
-*/
-function createTabBody(block, i, isActive, book) {
-    if(block.kwargs.type == "asciidoc"){        
-        return new Promise((resolve,reject) => {
-                book.renderBlock( 'asciidoc' , block.body )
-                    .then(function(rendered){ 
-                         resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' );
-                });
-        });
-    }else if(block.kwargs.type == "markdown"){
-        return new Promise((resolve,reject) => {
-                book.renderBlock( 'markdown' , block.body )
-                    .then(function(rendered){ 
-                         resolve( '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '">' + rendered + '</div>' );
-                });
-        });        
-    }else{
-        return new Promise((resolve,reject) => {
-            resolve( 
-               '<div class="tab' + (isActive? ' active' : '') + '" data-tab="' + i + '"><pre><code class="lang-' + (block.kwargs.type || block.kwargs.name) + '">'
-                  + escape(block.body) + '</code></pre></div>' );
-        });
+    return '<div class="tab' + (isActive ? ' active' : '') + '" ' +
+        'tab-name="' + safeName + '" ' +
+        'option-set="' + safeOptionSet + '"' +
+        '>' + contents + '</div>';
+}
+
+function createTabHeader(block, isActive) {
+    return wrapInTab(isActive, block, block.kwargs.name);
+}
+
+async function createTabBody(block, isActive, book) {
+    if (block.kwargs.type == "markdown") {
+        return wrapInTab(
+            isActive,
+            block,
+            await book.renderBlock('markdown', block.body
+        ));
     }
+    else {
+        const content =
+            '<pre>' +
+                '<code class="lang-' + block.kwargs.name + '">' +
+                escape(block.body) +
+                '</code>' +
+            '</pre>';
+        return wrapInTab(isActive, block, content);
+    }
+}
+
+function guid() {
+    function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+            .toString(16)
+            .substring(1);
+    }
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
 module.exports = {
@@ -56,56 +61,39 @@ module.exports = {
     blocks: {
         tabs: {
             blocks: ['tab'],
-            process: function(parentBlock) {
-                
-                var promise = new Promise((resolve,reject) => {
-                    var blocks = [parentBlock].concat(parentBlock.blocks);
-                    var tabsContent = [];
-                    var tabsHeader = [];
-                    var book = this;
-                    var counter = blocks.length;
+            process: async function (parentBlock) {
+                const book = this;
+                // optionSet is used to sort tab groups that use the same set of options.
+                // This will let us change the active tab for all of the tab groups using
+                // the same optionSet by clicking any of them.
+                // If an optionSet is not provided for this group of tabs, then create a GUID to
+                // ensure that no other optionSet will alter the active tab for this tab group
+                const optionSet = parentBlock.kwargs.optionSet || '@' + guid();
+                const blocks = [parentBlock].concat(parentBlock.blocks);
+                let tabsContent = "",
+                    tabsHeader = "",
+                    active = true;
 
-                    blocks.forEach(function(block, i) {
-                        var isActive = (i == 0);                    
+                for (let block of blocks) {
+                    block.kwargs.optionSet = optionSet;
 
-                        if (!block.kwargs.name) {
-                            throw new Error('Tab requires a "name" property');
-                        }
+                    if (!block.kwargs.name) {
+                        throw new Error('Tab requires a "name" property');
+                    }
 
-                        if (!block.kwargs.type) {
-                            block.kwargs.type=block.kwargs.name;
-                        }
+                    if (!block.kwargs.type) {
+                        block.kwargs.type = block.kwargs.name;
+                    }
 
-                        console.log("Processing "+i+" -> "+block.kwargs.name+" :: "+block.kwargs.type);
+                    tabsHeader += createTabHeader(block, active);
+                    tabsContent += await createTabBody(block, active, book);
+                    active = false;
+                };
 
-                        tabsHeader[i] = createTab(block, i, isActive);
-                        createTabBody(block, i, isActive, book).then(function(tabBody){
-                            tabsContent[i] = tabBody;
-                            console.log("Tab "+i+" has completed.. counter is now "+counter);
-                            console.log("tabsContent.length: "+tabsContent.length);
-                            if( --counter == 0) {                           
-
-                                var tabContentText = '';
-                                tabsContent.forEach(function(tab) {
-                                    tabContentText += tab;                                
-                                });
-
-                                var tabHeaderText = '';
-                                tabsHeader.forEach(function(header) {
-                                    tabHeaderText += header;
-                                });
-
-                                console.log("Resolving final aggregate tab content promise..");
-                                resolve('<div class="tabs">' +
-                                        '<div class="tabs-header">' + tabHeaderText + '</div>' +
-                                        '<div class="tabs-body">' + tabContentText + '</div>' +
-                                         '</div>');
-                            }
-                        });
-                    });
-
-                });
-                return promise;
+                return '<div class="tabs">' +
+                '<div class="tabs-header">' + tabsHeader + '</div>' +
+                '<div class="tabs-body">' + tabsContent + '</div>' +
+                '</div>';
             }
         }
     }
