@@ -20,7 +20,7 @@ Adds the plugin to your `book.json`, then run `gitbook install` if you are build
 
 This is a code block with tabs for each languages:
 
-{% tabs name="Fish", type="text" -%}
+{% tabs name="Markdown", type="markdown", optionSet="tabOptions" -%}
 msg = "Hello World"
 print msg
 {%- tab name="JavaScript", type="js" -%}
@@ -30,6 +30,11 @@ console.log(msg);
 <b>Hello World</b>
 {%- endtabs %}
 ```
+
+The `name` parameter is what will show in the tab at the top of the block.
+The `type` describes what the language within the block is.
+`optionSet` allows you to join multiple blocks together. If they share the same value for `optionSet`, then they will all change to the approriate tab when the user selects any of them.
+The currently active tab for every block is stored in local storage. Unnamed `optionSet`s will lose this value when the gitbook is rebuilt, as they are assigned a random GUID during the build process.
 
 ### Escaping templating syntax
 
